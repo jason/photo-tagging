@@ -1,12 +1,7 @@
-function randomColor() {
-  var red = Math.floor(Math.random() * 256);
-  var green = Math.floor(Math.random() * 256);
-  var blue = Math.floor(Math.random() * 256);
-
-  return "rgb(" + [red, green, blue].join(", ") + ")"
-}
-
+var squares = [];
 function makeClicksController (element) {
+
+
   var clicksController = {
     canvas: null,
 
@@ -23,6 +18,8 @@ function makeClicksController (element) {
       };
 
       this.addSquare(relPos);
+      squares.push(relPos);
+      console.log(squares);
     },
 
     addSquare: function (pos) {
@@ -31,10 +28,22 @@ function makeClicksController (element) {
           .addClass("square")
           .css("left", pos.x)
           .css("top", pos.y)
-          .css("background", randomColor())
+          .css("border-style","solid")
+          .css("border-color", "blue")
       )
+    },
+    hideSquares: function() {
+        $('.square').hide();
+        },
+
+    reloadSquares: function() {
+      $('.square').remove();
+      var that = this;
+      $.each(squares, function() {
+        that.addSquare();
+      });
     }
-  };
+  }
 
   clicksController.bind(element);
 
@@ -42,9 +51,11 @@ function makeClicksController (element) {
 };
 
 $(function () {
-  var canvases = $(".canvas");
-
-  canvases.each(function () {
-    makeClicksController(this);
-  });
+  // var canvases = $(".canvas");
+  // canvases.each(function () {
+  //   makeClicksController(this);
+  var photo = $("#photo");
+  var mcc = makeClicksController(photo);
+  $("button#clear").click(mcc.hideSquares);
+  $("button#reload").click(mcc.reloadSquares);
 });

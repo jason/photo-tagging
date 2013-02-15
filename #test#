@@ -1,0 +1,6 @@
+age_ten_years: function () {
+  var that = this;
+  times(10, function () {
+    that.incrementAgeOneYear();
+  });
+}
